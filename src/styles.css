@@ -1,1 +1,27 @@
 /* You can add global styles to this file, and also import other style files */
+
+html {
+    font-size: 10px;
+}
+
+body {
+    color: lightskyblue;
+    text-align: center;
+    user-select: none;
+    background: #000000d6;
+}
+
+a {
+    text-decoration: none;
+    color: lightskyblue;
+    font-size: 5rem;
+}
+
+a:hover {
+    opacity: 0.5;
+}
+
+a:active {
+    color: lime;
+    opacity: 1;
+}

@@ -1,0 +1,7 @@
+<hr class="ver one">
+<div *ngFor="let row of board;let rowPos=index" class="row-{{rowPos}}">
+    <span *ngFor="let col of row;let colPos=index" on-click="playerTurn(rowPos,colPos)" class="span-{{colPos}}" [class.win]="win && win[colPos].col == colPos && win[colPos].row === rowPos">
+    {{col}}
+  </span>
+</div>
+<hr class="ver two">
