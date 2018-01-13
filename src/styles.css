@@ -9,6 +9,7 @@ body {
     text-align: center;
     user-select: none;
     background: #000000d6;
+    margin: 0;
 }
 
 a {

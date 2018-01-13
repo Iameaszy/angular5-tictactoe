@@ -8,7 +8,7 @@ import { TicTacToeService } from './tic-tac-toe.service';
   templateUrl: './play-ground.component.html',
   styleUrls: ['./play-ground.component.less'],
 })
-export class PlayGroundComponent implements OnInit, DoCheck {
+export class PlayGroundComponent implements OnInit {
   @HostBinding('style.position') position = "relative";
   board: string[][];
   win: { [index: number]: number }[] | boolean;
@@ -23,23 +23,55 @@ export class PlayGroundComponent implements OnInit, DoCheck {
 
   ngOnInit() {
     this.board = this.tic.boards;
-    if (this.playFirst) { this.computerTurn(); }
-  }
-  ngDoCheck() {
+    this.computerTurn();
   }
 
   playerTurn(row, col) {
-    if (this.play.playerTurn(row, col)) {
-      this.won();
-      this.computerTurn();
-    }
+    if (this.playFirst) { return; }
+    const promise = new Promise((resolve, reject) => {
+      if (this.play.playerTurn(row, col)) {
+        resolve();
+      }
+    });
+
+    promise.then(() => {
+      setTimeout(() => {
+        this.won();
+        this.router.navigate([{ outlets: { player: null } }], { skipLocationChange: true });
+      }, 500);
+
+      setTimeout(() => {
+        this.playFirst = true;
+        this.computerTurn();
+      }, 1000);
+
+    });
   }
   computerTurn() {
+    if (!this.playFirst) { return; }
     const move = this.play.computerTurn();
-    setTimeout(() => {
-      this.play.updateBoard(move.row, move.col, this.play.computer.type);
-      this.won();
-    }, 2000);
+    const promise = new Promise((resolve, reject) => {
+      setTimeout(() => {
+        this.router.navigate([{ outlets: { computer: 'computer-alert' } }], { skipLocationChange: true });
+      }, 1000);
+      setTimeout(() => {
+        this.play.updateBoard(move.row, move.col, this.play.computer.type);
+        this.won();
+      }, 2000);
+      setTimeout(() => {
+        resolve();
+      }, 2500);
+    });
+
+    promise.then(() => {
+      this.router.navigate([{ outlets: { computer: null } }], { skipLocationChange: true });
+    }).then(() => {
+      setTimeout(() => {
+        this.playFirst = false;
+        this.router.navigate([{ outlets: { player: 'player-alert' } }], { skipLocationChange: true });
+      }, 1000);
+    });
+
   }
 
   won() {

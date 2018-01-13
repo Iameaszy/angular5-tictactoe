@@ -1,34 +1,31 @@
 import { Component, OnInit } from '@angular/core';
 import { PlayGroundService } from '../play-ground/play-ground.service';
 
-
 @Component({
   template: `
-    <h1>
-        <span class="playerName">{{playerName|uppercase}}</span>
-        <span class="playerScore score">0</span> VS
-        <span class="computerScore score">0</span>
-        <span class=computerName>{{computerName|uppercase}}</span>
-    </h1>
+      <header>
+        <div class="playerName">{{playerName|uppercase}}</div>
+        <span class="computer-score">0</span>
+        <span>VS</span>
+        <span class="player-score">0</span>
+        <div class="computerName">{{computerName|uppercase}}</div>
+      </header>
   `,
   styles: [`
-      :host(){
-            font-size: 173%;
-            background: black;
-            position: absolute;
-            width: 100%;
-            top: 0rem;
-            left: 0;
+      header{
+            font-size: 3rem;
+            text-align: left;
+            background:black;
+            padding:1%;
+            margin:0
       }
-      .playerName{
-            display: inline-block;
-            position: relative;
-            right: 14rem;
+      div{
+                width: 43.81%;
+                display: inline-block;
+                text-align:center;
       }
-      .computerName{
-            display: inline-block;
-            position: relative;
-            left: 14rem;
+      span[class$="score"]{
+            padding:0 1rem;
       }
   `]
 })
