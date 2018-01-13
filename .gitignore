@@ -1,5 +1,8 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
+#ssh key
+/ssh-shh-key.txt.pub
+/ssh-shh-key.txt
 # compiled output
 /dist
 /tmp
