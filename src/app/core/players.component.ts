@@ -1,17 +1,18 @@
-import { Component, OnInit } from '@angular/core';
-import { PlayGroundService } from '../play-ground/play-ground.service';
+import { Component, OnInit, DoCheck } from "@angular/core";
+import { PlayGroundService } from "../play-ground/play-ground.service";
 
 @Component({
   template: `
       <header>
         <div class="playerName">{{playerName|uppercase}}</div>
-        <span class="computer-score">0</span>
+        <span class="player-score">{{playerScore}}</span>
         <span>VS</span>
-        <span class="player-score">0</span>
+        <span class="computer-score">{{computerScore}}</span>
         <div class="computerName">{{computerName|uppercase}}</div>
       </header>
   `,
-  styles: [`
+  styles: [
+    `
       header{
             font-size: 3rem;
             text-align: left;
@@ -27,16 +28,28 @@ import { PlayGroundService } from '../play-ground/play-ground.service';
       span[class$="score"]{
             padding:0 1rem;
       }
-  `]
+
+      .computer-score,.computerName{
+        color:#e48a8a;
+      }
+  `
+  ]
 })
-export class PlayersComponent implements OnInit {
+export class PlayersComponent implements OnInit, DoCheck {
   playerName: string;
   computerName: string;
-
-  constructor(private play: PlayGroundService) {
-  }
+  playerScore: number;
+  computerScore: number;
+  constructor(private play: PlayGroundService) {}
   ngOnInit() {
     this.playerName = this.play.player.name;
     this.computerName = this.play.computer.name;
+    this.playerScore = this.play.playerScore;
+    this.computerScore = this.play.computerScore;
+  }
+
+  ngDoCheck() {
+    this.playerScore = this.play.playerScore;
+    this.computerScore = this.play.computerScore;
   }
 }
