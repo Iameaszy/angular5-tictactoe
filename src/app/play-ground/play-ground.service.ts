@@ -1,58 +1,46 @@
 import { Injectable } from "@angular/core";
-import { Person, Computer } from "./player";
+import { Player, Computer, Empty } from "./player";
 import { TicTacToeService } from "./tic-tac-toe.service";
 
 @Injectable()
 export class PlayGroundService {
-  player: Person;
   playerScore = 0;
   computerScore = 0;
-  computer: Computer;
+  computerWon = false;
+  playerWon = false;
   constructor(private tic: TicTacToeService) {}
   reset() {
-    this.tic.boards = [[" ", " ", " "], [" ", " ", " "], [" ", " ", " "]];
-  }
-
-  pausePlay(play) {
-    this.tic.play = !play;
-  }
-  createPlayers(name, type) {
-    const cType = type === "O" ? "X" : "O";
-    this.createPLayer(name, type);
-    this.createComputer(cType);
-  }
-  createPLayer(name: string, type: "O" | "X") {
-    this.tic.player = type;
-    this.player = new Person(name, type);
-  }
-  createComputer(type: "O" | "X", name?: string) {
-    this.tic.computer = type;
-    this.computer = new Computer(type, "Computer");
+    const empty = new Empty();
+    return [
+      [empty, empty, empty],
+      [empty, empty, empty],
+      [empty, empty, empty]
+    ];
   }
 
   updateBoard(rowPos: number, colPos: number, player) {
-    const space = this.tic.boards[rowPos][colPos];
+    const space = this.tic.boards[rowPos][colPos].type;
+    if (!space) {
+      return;
+    }
     if (space === " ") {
       this.tic.boards[rowPos][colPos] = player;
-      return true;
-    } else {
-      return false;
     }
   }
 
   computerTurn() {
-    return this.tic.findBestMove(this.tic.boards, this.computer.type);
+    return this.tic.findBestMove(this.tic.boards, this.tic.computer);
   }
   playerTurn(rowPos, colPos) {
-    return this.updateBoard(rowPos, colPos, this.player.type);
+    this.updateBoard(rowPos, colPos, this.tic.player);
   }
 
   won() {
-    return this.tic.won(this.tic.boards, this.computer.type);
+    return this.tic.won(this.tic.boards, this.tic.computer);
   }
 
   loose() {
-    if (this.tic.won(this.tic.boards, this.player.type)) {
+    if (this.tic.won(this.tic.boards, this.tic.player)) {
       alert("player won");
       this.reset();
       return true;

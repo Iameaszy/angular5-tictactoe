@@ -1,15 +1,27 @@
-interface Player {
+interface Person {
   name: string;
-  type: 'X' | 'O';
+  type: "X" | "O";
 }
-
-
 
 export class Computer implements Player {
-  constructor(public type: 'X' | 'O', public name: string) {
-  }
+  constructor(
+    public type: "X" | "O",
+    public name: string,
+    public win: boolean = false
+  ) {}
 }
 
-export class Person implements Player {
-  constructor(public name: string, public type: 'X' | 'O') { }
+export class Player implements Person {
+  constructor(
+    public name: string,
+    public type: "X" | "O",
+    public win: boolean = false
+  ) {}
+}
+
+export class Empty {
+  type: " ";
+  constructor() {
+    this.type = " ";
+  }
 }

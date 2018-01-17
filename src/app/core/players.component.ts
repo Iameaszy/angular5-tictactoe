@@ -1,4 +1,5 @@
 import { Component, OnInit, DoCheck } from "@angular/core";
+import { TicTacToeService } from "../play-ground/tic-tac-toe.service";
 import { PlayGroundService } from "../play-ground/play-ground.service";
 
 @Component({
@@ -28,10 +29,6 @@ import { PlayGroundService } from "../play-ground/play-ground.service";
       span[class$="score"]{
             padding:0 1rem;
       }
-
-      .computer-score,.computerName{
-        color:#e48a8a;
-      }
   `
   ]
 })
@@ -40,10 +37,10 @@ export class PlayersComponent implements OnInit, DoCheck {
   computerName: string;
   playerScore: number;
   computerScore: number;
-  constructor(private play: PlayGroundService) {}
+  constructor(private tic: TicTacToeService, public play: PlayGroundService) {}
   ngOnInit() {
-    this.playerName = this.play.player.name;
-    this.computerName = this.play.computer.name;
+    this.playerName = this.tic.player.name;
+    this.computerName = this.tic.computer.name;
     this.playerScore = this.play.playerScore;
     this.computerScore = this.play.computerScore;
   }

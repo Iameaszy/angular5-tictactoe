@@ -1,7 +1,6 @@
 import { Component, OnInit, HostBinding, DoCheck } from "@angular/core";
 import { PlayGroundService } from "./play-ground.service";
 import { ActivatedRoute, ParamMap, Router } from "@angular/router";
-import { Person, Computer } from "./player";
 import { TicTacToeService } from "./tic-tac-toe.service";
 
 @Component({
@@ -10,7 +9,7 @@ import { TicTacToeService } from "./tic-tac-toe.service";
 })
 export class PlayGroundComponent implements OnInit {
   @HostBinding("style.position") position = "relative";
-  board: string[][];
+  board: any[][];
   win: any;
   status = false;
   playFirst = true;
@@ -25,30 +24,20 @@ export class PlayGroundComponent implements OnInit {
     this.board = this.tic.boards;
     this.computerTurn();
   }
-
+  reset() {
+    this.tic.boards = this.play.reset();
+    this.board = this.tic.boards;
+  }
   playerTurn(row, col) {
     if (this.playFirst) {
       return;
     }
-    const promise = new Promise((resolve, reject) => {
-      if (this.play.playerTurn(row, col)) {
-        resolve();
-      }
+    this.play.playerTurn(row, col);
+    this.playFirst = true;
+    this.router.navigate([{ outlets: { player: null } }], {
+      skipLocationChange: true
     });
-
-    promise.then(() => {
-      setTimeout(() => {
-        this.won();
-        this.router.navigate([{ outlets: { player: null } }], {
-          skipLocationChange: true
-        });
-      }, 500);
-
-      setTimeout(() => {
-        this.playFirst = true;
-        this.computerTurn();
-      }, 1000);
-    });
+    this.computerTurn();
   }
   computerTurn() {
     if (!this.playFirst) {
@@ -62,17 +51,30 @@ export class PlayGroundComponent implements OnInit {
         });
       }, 1000);
       setTimeout(() => {
-        this.play.updateBoard(move.row, move.col, this.play.computer.type);
-        resolve();
+        this.play.updateBoard(move.row, move.col, this.tic.computer);
       }, 2000);
+
+      setTimeout(() => {
+        if (this.won()) {
+          this.play.computerScore++;
+          this.router.navigate(
+            [{ outlets: { computer: null, player: null } }],
+            {
+              skipLocationChange: true
+            }
+          );
+
+          setTimeout(() => {
+            this.reset();
+          }, 1500);
+          reject();
+        } else {
+          resolve();
+        }
+      }, 2500);
     });
 
     promise
-      .then(() => {
-        setTimeout(() => {
-          this.won();
-        }, 2500);
-      })
       .then(arg => {
         this.router.navigate([{ outlets: { computer: null } }], {
           skipLocationChange: true
@@ -85,50 +87,32 @@ export class PlayGroundComponent implements OnInit {
             skipLocationChange: true
           });
         }, 1000);
+      })
+      .catch(err => {
+        setTimeout(() => {
+          this.playFirst = false;
+          this.router.navigate([{ outlets: { player: "player-alert" } }], {
+            skipLocationChange: true
+          });
+        }, 2000);
       });
   }
 
   won() {
-    this.win = this.play.won();
-    if (this.win) {
-      const wrapper = document.querySelector(".wrapper") as any;
-      const span = wrapper.querySelectorAll("span");
-      const winLoose = wrapper.querySelector(".win-loose");
-      span.forEach((elem, ind) => {
-        this.win.forEach(val => {
-          if (val.row === 0 && ind === val.col) {
-            elem.className += " win";
-          } else if (val.row === 1 && ind === val.col + 3) {
-            elem.className += " win";
-          } else if (val.row === 2 && ind === val.col + 6) {
-            elem.className += " win";
-          }
-        });
+    const stat: any = this.play.won();
+
+    if (stat) {
+      stat.pos.forEach(val => {
+        // bcos of object and array behaviour
+        const player = this.board[val.row][val.col];
+        this.board[val.row][val.col] = {
+          name: player.name,
+          type: player.type,
+          win: true
+        };
       });
-
-      this.play.computerScore++;
-      setTimeout(() => {
-        this.router.navigate([{ outlets: { player: null, computer: null } }], {
-          skipLocationChange: true
-        });
-        winLoose.style.display = "block";
-      }, 500);
-      setTimeout(() => {
-        this.play.reset();
-        this.board = this.tic.boards;
-      }, 1500);
-      setTimeout(() => {
-        winLoose.style.display = "none";
-        this.router.navigate([{ outlets: { player: "player-alert" } }], {
-          skipLocationChange: true
-        });
-      }, 2000);
-    }
-  }
-
-  loose() {
-    if (this.play.loose()) {
-      this.board = this.tic.boards;
+      this.play.computerWon = true;
+      return true;
     }
   }
 }

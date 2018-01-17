@@ -3,6 +3,11 @@
 <router-outlet name="computer"></router-outlet>
 <router-outlet name="player"></router-outlet>
 <div class="wrapper">
-    <div class="win-loose">You lost</div>
+    <ng-container *ngIf="play.computerWon">
+        <div class="win-loose">You lost</div>
+    </ng-container>
+    <ng-container *ngIf="play.playerWon">
+        <div class="win">You Won</div>
+    </ng-container>
     <router-outlet></router-outlet>
 </div>

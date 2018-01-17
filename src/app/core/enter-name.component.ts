@@ -1,11 +1,16 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ParamMap, ActivatedRoute, Router, NavigationExtras } from "@angular/router";
-import { AuthGuardService } from './auth-guard.service';
-import { Observable } from 'rxjs/Observable';
+import { Component, OnInit, OnDestroy } from "@angular/core";
+import {
+  ParamMap,
+  ActivatedRoute,
+  Router,
+  NavigationExtras
+} from "@angular/router";
+import { AuthGuardService } from "./auth-guard.service";
+import { Observable } from "rxjs/Observable";
 import "rxjs/add/operator/switchMap";
-import 'rxjs/add/operator/first';
-import { TicTacToeService } from '../play-ground/tic-tac-toe.service';
-import { PlayGroundService } from '../play-ground/play-ground.service';
+import "rxjs/add/operator/first";
+import { TicTacToeService } from "../play-ground/tic-tac-toe.service";
+import { PlayGroundService } from "../play-ground/play-ground.service";
 @Component({
   template: `
   <div>
@@ -19,7 +24,11 @@ import { PlayGroundService } from '../play-ground/play-ground.service';
    </p>
    </div>
   `,
-  styles: [`
+  styles: [
+    `
+    :host(){
+      font-family: cursive
+    }
 
   .name-wrapper{
         font-size: 4rem;
@@ -46,43 +55,58 @@ import { PlayGroundService } from '../play-ground/play-ground.service';
   a{
     font-size: 3rem;
     margin: 0 4rem;
-    background: aquamarine;
+    background: #778899;
     padding: 0 1rem;
     color:green;
     border-radius:5px;
+    font-family:normal;
   }
 
-  `]
+  `
+  ]
 })
 export class EnterNameComponent implements OnInit, OnDestroy {
-  name = '';
+  name = "";
   msg = false;
 
-  constructor(private router: Router, private route: ActivatedRoute, private play: PlayGroundService) { }
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private tic: TicTacToeService
+  ) {}
 
   ngOnInit() {
     setTimeout(() => {
-      this.router.navigate([{ outlets: { error: null } }], { skipLocationChange: true });
+      this.router.navigate([{ outlets: { error: null } }], {
+        skipLocationChange: true
+      });
     }, 100);
   }
   ngOnDestroy() {
     setTimeout(() => {
-      this.router.navigate([{ outlets: { error: null } }], { skipLocationChange: true });
+      this.router.navigate([{ outlets: { error: null } }], {
+        skipLocationChange: true
+      });
     }, 100);
   }
   next(name) {
     let player;
     this.route.paramMap.subscribe((params: ParamMap) => {
-      player = params.get('player');
+      player = params.get("player");
     });
     if (!name) {
-      return this.router.navigate([{ outlets: { error: ['error-log'] } }], { skipLocationChange: true });
+      return this.router.navigate([{ outlets: { error: ["error-log"] } }], {
+        skipLocationChange: true
+      });
     }
 
-    this.play.createPlayers(name, player);
-    this.router.navigateByUrl("/play-ground", { skipLocationChange: true })
+    this.tic.createPlayers(name, player);
+    this.router
+      .navigateByUrl("/play-ground", { skipLocationChange: true })
       .then(() => {
-        this.router.navigate([{ outlets: { players: 'players' } }], { skipLocationChange: true });
+        this.router.navigate([{ outlets: { players: "players" } }], {
+          skipLocationChange: true
+        });
       });
   }
 }

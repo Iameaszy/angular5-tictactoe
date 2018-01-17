@@ -1,5 +1,5 @@
-import { Component, OnInit, DoCheck } from '@angular/core';
-import { Router, ActivatedRoute, RouterEvent } from '@angular/router';
+import { Component, OnInit, DoCheck } from "@angular/core";
+import { Router, ActivatedRoute, RouterEvent } from "@angular/router";
 
 @Component({
   template: `
@@ -8,15 +8,20 @@ import { Router, ActivatedRoute, RouterEvent } from '@angular/router';
           <a [routerLink]='["/enter-name/X"]' skipLocationChange="true" routerLinkActive="active" on-click="next('/enter-name/X')">X</a>
           <a [routerLink]='["/enter-name/O"]' routerLinkActive="active" on-click="next('/enter-name/O')">O</a>
       </nav>
-        <a class="home" routerLink="/">Back</a>
+        <a class="difficulty" routerLink="/difficulty">Back</a>
   `,
-  styles: [`
+  styles: [
+    `
+      :host(){
+        font-family: cursive;
+      }
       h1{
             font-size: 3rem;
-            margin-top: 8rem
+            margin-top: 4rem;
+            margin-bottom:5rem
       }
 
-      .home{
+      .difficulty{
         font-size: 3rem;
         line-height: 4;
       }
@@ -24,14 +29,16 @@ import { Router, ActivatedRoute, RouterEvent } from '@angular/router';
       a{
         margin: 2rem;
       }
-  `]
+  `
+  ]
 })
 export class OnePlayerComponent implements OnInit {
-
-  constructor(private router: Router, private route: ActivatedRoute) { }
+  constructor(private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit() {
-    this.route.data.subscribe((val) => { console.log(val); });
+    this.route.data.subscribe(val => {
+      console.log(val);
+    });
   }
 
   next(url) {
