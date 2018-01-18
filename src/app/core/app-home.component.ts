@@ -13,7 +13,7 @@ import {
   <p>How do you want to play?</p>
   <nav>
   <a [routerLink]='["/difficulty"]' routerLinkActive="active">One Player</a>
-  <a>Two Player</a>
+  <a routerLink="/two-player">Two Player</a>
   </nav>
   </div> `,
   styles: [

@@ -7,6 +7,10 @@ const path: Routes = [
     loadChildren: "app/one-player/one-player.module#OnePlayerModule"
   },
   {
+    path: "two-player",
+    loadChildren: "app/two-player/two-player.module#TwoPlayerModule"
+  },
+  {
     path: "play-ground",
     loadChildren: "app/play-ground/play-ground.module#PlayGroundModule"
   }
