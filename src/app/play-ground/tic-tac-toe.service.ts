@@ -89,7 +89,7 @@ export class TicTacToeService {
       board[1][1] === player &&
       board[2][2] === player
     ) {
-      obj.pos = this.transform([0, 0], [1, 1], [1, 2]);
+      obj.pos = this.transform([0, 0], [1, 1], [2, 2]);
       return obj;
     } else if (
       board[0][2] === player &&

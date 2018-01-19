@@ -1,45 +1,56 @@
-import { Component, OnInit, HostBinding } from '@angular/core';
+import { Component, OnInit, HostBinding } from "@angular/core";
 import { trigger, transition, animate, style } from "@angular/animations";
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
   template: `
   <div>
     <p>
-      Computer's turn
+      {{player|uppercase}}
     </p>
     </div>
   `,
-  styles: [`
+  styles: [
+    `
       div{
           position: absolute;
           top:17rem;
-          background:#ef6767b3;
           right: 51rem;
           width: 17rem;
           font-size: 2rem;
           color:aquamarine;
+          background: darkcyan;
         }
 
         p{
           padding:1rem;
           margin:0;
         }
-  `]
-  ,
+  `
+  ],
   animations: [
-    trigger('computer', [
+    trigger("computer", [
       transition(":enter", animate("0.5s ease-in", style({ opacity: 1 }))),
-      transition(":leave", animate("0.5s ease-out", style({
-        opacity: 0
-      })))
+      transition(
+        ":leave",
+        animate(
+          "0.5s ease-out",
+          style({
+            opacity: 0
+          })
+        )
+      )
     ])
   ]
 })
 export class ComputerAlertComponent implements OnInit {
+  player: string;
   @HostBinding("@computer") computer = true;
-  constructor() { }
+  constructor(private route: ActivatedRoute) {}
 
   ngOnInit() {
+    this.route.paramMap.subscribe(data => {
+      this.player = data.get("turn");
+    });
   }
-
 }

@@ -11,12 +11,12 @@ export class AppComponent implements OnInit, DoCheck {
   ngDoCheck() {
     if (this.play.computerWon) {
       setTimeout(() => {
-        this.play.computerWon = false;
+        this.play.computerWon = "";
       }, 2000);
     }
     if (this.play.playerWon) {
       setTimeout(() => {
-        this.play.computerWon = false;
+        this.play.playerWon = "";
       }, 2000);
     }
   }

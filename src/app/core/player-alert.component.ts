@@ -1,13 +1,21 @@
-import { Component, OnInit, HostBinding } from '@angular/core';
-import { trigger, state, transition, style, animate } from "@angular/animations";
+import { Component, OnInit, HostBinding } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
+import {
+  trigger,
+  state,
+  transition,
+  style,
+  animate
+} from "@angular/animations";
 
 @Component({
   template: `
     <div class=".alert">
-      <p>Player's turn</p>
+      <p>{{playerID|uppercase}}</p>
     </div>
   `,
-  styles: [`
+  styles: [
+    `
         div{
           position: absolute;
           top:17rem;
@@ -22,21 +30,31 @@ import { trigger, state, transition, style, animate } from "@angular/animations"
           padding:1rem;
           margin:0;
         }
-  `],
+  `
+  ],
   animations: [
-    trigger('player', [
+    trigger("player", [
       transition(":enter", animate("0.5s ease-in", style({ opacity: 1 }))),
-      transition(":leave", animate("0.5s ease-out", style({
-        opacity: 0
-      })))
+      transition(
+        ":leave",
+        animate(
+          "0.5s ease-out",
+          style({
+            opacity: 0
+          })
+        )
+      )
     ])
   ]
 })
 export class PlayerAlertComponent implements OnInit {
+  playerID: string;
   @HostBinding("@player") player = true;
-  constructor() { }
+  constructor(private route: ActivatedRoute) {}
 
   ngOnInit() {
+    this.route.paramMap.subscribe(data => {
+      this.playerID = data.get("turn");
+    });
   }
-
 }

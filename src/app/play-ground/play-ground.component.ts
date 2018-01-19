@@ -99,7 +99,7 @@ export class PlayGroundComponent implements OnInit {
   }
 
   won() {
-    const stat: any = this.play.won();
+    const stat: any = this.play.won(this.tic.computer);
 
     if (stat) {
       stat.pos.forEach(val => {

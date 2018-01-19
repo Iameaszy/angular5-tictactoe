@@ -6,8 +6,8 @@ import { TicTacToeService } from "./tic-tac-toe.service";
 export class PlayGroundService {
   playerScore = 0;
   computerScore = 0;
-  computerWon = false;
-  playerWon = false;
+  computerWon = "";
+  playerWon = "";
   constructor(private tic: TicTacToeService) {}
   reset() {
     const empty = new Empty();
@@ -35,8 +35,8 @@ export class PlayGroundService {
     this.updateBoard(rowPos, colPos, this.tic.player);
   }
 
-  won() {
-    return this.tic.won(this.tic.boards, this.tic.computer);
+  won(player) {
+    return this.tic.won(this.tic.boards, player);
   }
 
   loose() {
