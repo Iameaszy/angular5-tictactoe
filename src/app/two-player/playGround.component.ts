@@ -74,17 +74,22 @@ export class PlayGroundComponent implements OnInit {
     this.playFirst = !this.playFirst;
     const promise = new Promise((resolve, reject) => {
       const status = this.won(next);
+      const draw = this.play.draw(this.board);
       if (status) {
-        resolve();
-      } else {
+        resolve(`${next.name} wins`);
+      } else if(draw){
+            resolve(`Draw`);
+      }else {
         reject();
       }
     });
 
     promise
-      .then(() => {
-        this.play.playerWon = `${next.name} wins`;
+      .then((result) => {
+        this.play.playerWon = `${result}`;
+        if(result !== "Draw"){
         this.playFirst ? this.play.playerScore++ : this.play.computerScore++;
+        }
         setTimeout(() => {
           this.reset();
           this.init();
@@ -112,5 +117,9 @@ export class PlayGroundComponent implements OnInit {
       return true;
     }
     return false;
+  }
+
+  draw(){
+    console.log(this.play.draw(this.board);)
   }
 }

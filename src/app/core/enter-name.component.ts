@@ -1,16 +1,16 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import {
   ParamMap,
   ActivatedRoute,
   Router,
   NavigationExtras
-} from "@angular/router";
-import { AuthGuardService } from "./auth-guard.service";
-import { Observable } from "rxjs/Observable";
-import "rxjs/add/operator/switchMap";
-import "rxjs/add/operator/first";
-import { TicTacToeService } from "../play-ground/tic-tac-toe.service";
-import { PlayGroundService } from "../play-ground/play-ground.service";
+} from '@angular/router';
+import { AuthGuardService } from './auth-guard.service';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/operator/first';
+import { TicTacToeService } from '../play-ground/tic-tac-toe.service';
+import { PlayGroundService } from '../play-ground/play-ground.service';
 @Component({
   template: `
   <div>
@@ -20,7 +20,7 @@ import { PlayGroundService } from "../play-ground/play-ground.service";
 
    <p>
        <a [routerLink]='["/one-player",1]' routerLinkActive='active'>Back</a>
-        <a (click)="next(name)">Next</a>
+        <a (click)="next(name)" on-keyup.enter="next(name)" tabindex="0">Next</a>
    </p>
    </div>
   `,
@@ -66,7 +66,7 @@ import { PlayGroundService } from "../play-ground/play-ground.service";
   ]
 })
 export class EnterNameComponent implements OnInit, OnDestroy {
-  name = "";
+  name = '';
   msg = false;
 
   constructor(
@@ -92,19 +92,19 @@ export class EnterNameComponent implements OnInit, OnDestroy {
   next(name) {
     let player;
     this.route.paramMap.subscribe((params: ParamMap) => {
-      player = params.get("player");
+      player = params.get('player');
     });
     if (!name) {
-      return this.router.navigate([{ outlets: { error: ["error-log"] } }], {
+      return this.router.navigate([{ outlets: { error: ['error-log'] } }], {
         skipLocationChange: true
       });
     }
 
     this.tic.createPlayers(name, player);
     this.router
-      .navigateByUrl("/play-ground", { skipLocationChange: true })
+      .navigateByUrl('/play-ground', { skipLocationChange: true })
       .then(() => {
-        this.router.navigate([{ outlets: { players: "players" } }], {
+        this.router.navigate([{ outlets: { players: 'players' } }], {
           skipLocationChange: true
         });
       });

@@ -1,12 +1,12 @@
-import { Component, OnInit, DoCheck } from "@angular/core";
-import { Router, ActivatedRoute, RouterEvent } from "@angular/router";
+import { Component, OnInit, DoCheck } from '@angular/core';
+import { Router, ActivatedRoute, RouterEvent } from '@angular/router';
 
 @Component({
   template: `
       <h1>Choose your player</h1>
       <nav>
-          <a [routerLink]='["/enter-name/X"]' skipLocationChange="true" routerLinkActive="active" on-click="next('/enter-name/X')">X</a>
-          <a [routerLink]='["/enter-name/O"]' routerLinkActive="active" on-click="next('/enter-name/O')">O</a>
+          <a [routerLink]='["/enter-name/X"]' skipLocationChange="true" routerLinkActive="active">X</a>
+          <a [routerLink]='["/enter-name/O"]' routerLinkActive="active">O</a>
       </nav>
         <a class="difficulty" routerLink="/difficulty">Back</a>
   `,

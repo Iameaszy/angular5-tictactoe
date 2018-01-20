@@ -1,6 +1,6 @@
-import { Component, OnInit } from "@angular/core";
-import { Router } from "@angular/router";
-import { TicTacToeService } from "../play-ground/tic-tac-toe.service";
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { TicTacToeService } from '../play-ground/tic-tac-toe.service';
 
 @Component({
   template: `
@@ -12,7 +12,7 @@ import { TicTacToeService } from "../play-ground/tic-tac-toe.service";
   </div>
    <p>
        <a routerLink="/two-player" routerLinkActive='active'>Back</a>
-        <a on-click="next()"  routerLinkActive="active">Next</a>
+        <a tabindex="0" on-click="next()" on-keyup.enter="next()"  routerLinkActive="active">Next</a>
    </p>
    </div>
   `,
@@ -65,9 +65,9 @@ export class VersusComponent implements OnInit {
 
   next() {
     this.router
-      .navigate(["/two-player/playground"], { skipLocationChange: true })
+      .navigate(['/two-player/playground'], { skipLocationChange: true })
       .then(() => {
-        this.router.navigate([{ outlets: { players: "players" } }], {
+        this.router.navigate([{ outlets: { players: 'players' } }], {
           skipLocationChange: true
         });
       });

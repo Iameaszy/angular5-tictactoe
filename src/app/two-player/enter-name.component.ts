@@ -1,5 +1,5 @@
-import { Component, OnInit } from "@angular/core";
-import { RouterModule, Router } from "@angular/router";
+import { Component, OnInit } from '@angular/core';
+import { RouterModule, Router } from '@angular/router';
 
 @Component({
   template: `
@@ -11,7 +11,7 @@ import { RouterModule, Router } from "@angular/router";
 
    <p>
        <a routerLink="/" routerLinkActive='active'>Back</a>
-        <a on-click="next(name)">Next</a>
+        <a tabindex="0" on-click="next(name)" on-keyup.enter="next(name)">Next</a>
    </p>
    </div>
   `,
@@ -62,11 +62,11 @@ export class EnterNameComponent implements OnInit {
   ngOnInit() {}
   next(name) {
     if (!name) {
-      this.router.navigateByUrl("/two-player(error:error-log)", {
+      this.router.navigateByUrl('/two-player(error:error-log)', {
         skipLocationChange: true
       });
     } else {
-      this.router.navigate(["/two-player/player2-name", { name }], {
+      this.router.navigate(['/two-player/player2-name', { name }], {
         skipLocationChange: true
       });
     }

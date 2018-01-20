@@ -1,7 +1,7 @@
-import { Component, OnInit } from "@angular/core";
-import { RouterModule, Router, ActivatedRoute } from "@angular/router";
-import { PlayGroundService } from "../play-ground/play-ground.service";
-import { TicTacToeService } from "../play-ground/tic-tac-toe.service";
+import { Component, OnInit } from '@angular/core';
+import { RouterModule, Router, ActivatedRoute } from '@angular/router';
+import { PlayGroundService } from '../play-ground/play-ground.service';
+import { TicTacToeService } from '../play-ground/tic-tac-toe.service';
 
 @Component({
   template: `
@@ -13,7 +13,7 @@ import { TicTacToeService } from "../play-ground/tic-tac-toe.service";
 
    <p>
        <a routerLink="/two-player" routerLinkActive='active'>Back</a>
-        <a on-click="next(name)" routerLinkActive="active">Next</a>
+        <a tabindex="0" on-click="next(name)" on-keyup.enter="next(name)" routerLinkActive="active">Next</a>
    </p>
    </div>
   `,
@@ -71,15 +71,15 @@ export class EnterName2Component implements OnInit {
 
   next(name) {
     if (!name) {
-      this.router.navigate([{ outlets: { error: "error-log" } }], {
+      this.router.navigate([{ outlets: { error: 'error-log' } }], {
         skipLocationChange: true
       });
     } else {
       this.route.paramMap.subscribe(data => {
         // conforming to the tictactoe service interface
-        this.tic.player = { name: data.get("name"), type: "X", win: false };
-        this.tic.computer = { name, type: "O", win: false };
-        this.router.navigateByUrl("/two-player/versus", {
+        this.tic.player = { name: data.get('name'), type: 'X', win: false };
+        this.tic.computer = { name, type: 'O', win: false };
+        this.router.navigateByUrl('/two-player/versus', {
           skipLocationChange: true
         });
       });
