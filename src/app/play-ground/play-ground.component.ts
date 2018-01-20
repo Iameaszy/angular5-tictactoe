@@ -46,9 +46,18 @@ export class PlayGroundComponent implements OnInit {
     const move = this.play.computerTurn();
     const promise = new Promise((resolve, reject) => {
       setTimeout(() => {
-        this.router.navigate([{ outlets: { computer: "computer-alert" } }], {
-          skipLocationChange: true
-        });
+        this.router.navigate(
+          [
+            {
+              outlets: {
+                computer: ["computer-alert", { turn: "Computer's turn" }]
+              }
+            }
+          ],
+          {
+            skipLocationChange: true
+          }
+        );
       }, 1000);
       setTimeout(() => {
         this.play.updateBoard(move.row, move.col, this.tic.computer);
@@ -68,6 +77,18 @@ export class PlayGroundComponent implements OnInit {
             this.reset();
           }, 1500);
           reject();
+        } else if (this.play.draw(this.board)) {
+          this.router.navigate(
+            [{ outlets: { computer: null, player: null } }],
+            {
+              skipLocationChange: true
+            }
+          );
+          this.play.playerWon = "Draw";
+          setTimeout(() => {
+            this.reset();
+          }, 1500);
+          reject();
         } else {
           resolve();
         }
@@ -83,17 +104,31 @@ export class PlayGroundComponent implements OnInit {
       .then(arg => {
         setTimeout(() => {
           this.playFirst = false;
-          this.router.navigate([{ outlets: { player: "player-alert" } }], {
-            skipLocationChange: true
-          });
+          this.router.navigate(
+            [
+              {
+                outlets: { player: ["player-alert", { turn: "player's turn" }] }
+              }
+            ],
+            {
+              skipLocationChange: true
+            }
+          );
         }, 1000);
       })
       .catch(err => {
         setTimeout(() => {
           this.playFirst = false;
-          this.router.navigate([{ outlets: { player: "player-alert" } }], {
-            skipLocationChange: true
-          });
+          this.router.navigate(
+            [
+              {
+                outlets: { player: ["player-alert", { turn: "player's turn" }] }
+              }
+            ],
+            {
+              skipLocationChange: true
+            }
+          );
         }, 2000);
       });
   }
@@ -111,7 +146,7 @@ export class PlayGroundComponent implements OnInit {
           win: true
         };
       });
-      this.play.computerWon = true;
+      this.play.computerWon = "oh! no! You lost!!!";
       return true;
     }
   }

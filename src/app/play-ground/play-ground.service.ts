@@ -48,5 +48,7 @@ export class PlayGroundService {
     return false;
   }
 
-  draw() {}
+  draw(board) {
+    return this.tic.draw(board);
+  }
 }

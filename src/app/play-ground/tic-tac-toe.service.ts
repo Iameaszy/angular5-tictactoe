@@ -106,6 +106,7 @@ export class TicTacToeService {
     if (this.getEmptyColsIndexex(board).length === 0) {
       return true;
     }
+    return false;
   }
   minimax(board, depth, player) {
     const availSpots = this.getEmptyColsIndexex(board);

@@ -27,7 +27,7 @@ import {
         }
 
         p{
-          padding:1rem;
+          padding:1rem 0;
           margin:0;
         }
   `

@@ -16,14 +16,14 @@ import { ActivatedRoute } from "@angular/router";
           position: absolute;
           top:17rem;
           right: 51rem;
-          width: 17rem;
+          width: 19rem;
           font-size: 2rem;
           color:aquamarine;
           background: darkcyan;
         }
 
         p{
-          padding:1rem;
+          padding:1rem 0;
           margin:0;
         }
   `
