@@ -120,6 +120,6 @@ export class PlayGroundComponent implements OnInit {
   }
 
   draw(){
-    console.log(this.play.draw(this.board);)
+    console.log(this.play.draw(this.board));
   }
 }
